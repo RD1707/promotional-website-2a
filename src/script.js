@@ -1,10 +1,9 @@
 import './main.css'
-import { Clock, Scene, LoadingManager, WebGLRenderer, sRGBEncoding, Group, PerspectiveCamera, DirectionalLight, PointLight, MeshPhongMaterial } from 'three'
+import { Clock, Scene, LoadingManager, WebGLRenderer, sRGBEncoding, Group, PerspectiveCamera, DirectionalLight, PointLight } from 'three'
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
-// --- SELETORES DE DOM E VARIÁVEIS GLOBAIS ---
 const ftsLoader = document.querySelector(".lds-roller")
 const looadingCover = document.getElementById("loading-text-intro")
 const container = document.getElementById('canvas-container')
@@ -17,10 +16,8 @@ let previousTime = 0
 const cursor = {x:0, y:0}
 const clock = new Clock()
 
-// --- CENA ÚNICA ---
 const scene = new Scene()
 
-// --- RENDERIZADOR ÚNICO ---
 const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance"})
 renderer.autoClear = true
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1))
@@ -28,18 +25,15 @@ renderer.setSize( width, height)
 renderer.outputEncoding = sRGBEncoding
 container.appendChild(renderer.domElement)
 
-// --- CÂMERA ÚNICA ---
 const cameraGroup = new Group()
 scene.add(cameraGroup)
 const camera = new PerspectiveCamera(35, width / height, 1, 100)
 camera.position.set(19,1.54,-0.1)
 cameraGroup.add(camera)
 
-// --- LUZES ---
 const sunLight = new DirectionalLight(0x435c72, 0.08); scene.add(sunLight);
 const fillLight = new PointLight(0x88b2d9, 2.7, 4, 3); fillLight.position.set(30,3,1.8); scene.add(fillLight);
 
-// --- CARREGAMENTO DE MODELOS ---
 const loadingManager = new LoadingManager()
 const dracoLoader = new DRACOLoader(loadingManager)
 dracoLoader.setDecoderPath('node_modules/three/examples/jsm/libs/draco/gltf/')
@@ -58,15 +52,13 @@ loadingManager.onLoad = function() {
     window.scroll(0, 0)
 }
 
-// Carrega o Modelo Principal
-loader.load('models/gltf/graces-draco2.glb', function (gltf) { // Troque pelo caminho do seu modelo
+loader.load('models/gltf/graces-draco2.glb', function (gltf) {
     gltf.scene.position.set(-1.48, 0.66, 1.5);
     gltf.scene.rotation.y = 0;
     gltf.scene.scale.set(3.58, 3.58, 3.58);
     scene.add(gltf.scene);
 });
 
-// --- FUNÇÕES ---
 function introAnimation() {
     new TWEEN.Tween(camera.position.set(0,4,2.7)).to({ x: 0, y: 2.4, z: 8.8}, 3500).easing(TWEEN.Easing.Quadratic.InOut).start()
     .onComplete(function () {
@@ -79,7 +71,6 @@ function introAnimation() {
 function rendeLoop() {
     TWEEN.update()
     
-    // Renderiza apenas a cena principal
     renderer.render(scene, camera)
 
     const elapsedTime = clock.getElapsedTime()
@@ -109,7 +100,6 @@ function handleNavButtonHover(e) {
     }
 }
 
-// --- INICIALIZAÇÃO E EVENTOS ---
 rendeLoop()
 
 document.addEventListener('mousemove', (event) => {
@@ -130,3 +120,49 @@ window.addEventListener('resize', () => {
     renderer.setSize(width, height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1))
 })
+
+const sobreContent = {
+    filme: `Aqui você pode escrever um resumo sobre o enredo do filme, os temas abordados e o que o público pode esperar dessa jornada "entre os mundos". Destaque os elementos que tornam a história única e cativante.`,
+    personagens: `Descreva os protagonistas e antagonistas. Quem são eles? Quais são suas motivações, medos e arcos de desenvolvimento ao longo da história? Dê um vislumbre da complexidade de cada um.`,
+    cenarios: `Apresente os mundos que o filme explora. Descreva a atmosfera, a estética e a importância de cada cenário para a narrativa. São mundos contrastantes? Mágicos? Tecnológicos?`
+};
+
+const navLinks = document.querySelectorAll('nav.header .a');
+const sobreTabs = document.querySelectorAll('.second-container > ul > li');
+const sobreParagraph = document.getElementById('sobre-conteudo');
+
+navLinks.forEach(anchor => {
+    if (anchor.getAttribute('href') && anchor.getAttribute('href').startsWith('#')) {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                navLinks.forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    }
+});
+
+if (sobreTabs.length > 0 && sobreParagraph) {
+    sobreTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            sobreTabs.forEach(t => t.classList.remove('active'));
+            
+            tab.classList.add('active');
+            
+            const tabKey = tab.dataset.tab;
+            
+            sobreParagraph.innerHTML = sobreContent[tabKey];
+        });
+    });
+}
+
+const player = new Plyr('#player');

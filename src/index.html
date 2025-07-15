@@ -10,27 +10,95 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Josefin+Sans&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     </head>
     <body>
         <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         <div id="loading-text-intro"><p>Carregando</p></div>
 
         <div class="main-container" style="visibility:hidden;">
-            <nav class="header"><a class="active a"><span>HOME</span></a><a class="a"><span>SOBRE</span></a><a class="a"><span>EQUIPE</span></a><a class="a"><span>ASSISTIR</span></a><a class="a"><span>CREDITOS</span></a><div class="cursor"></div></nav>
+            <nav class="header">
+                <a href="#home" class="active a"><span>HOME</span></a>
+                <a href="#sobre" class="a"><span>SOBRE</span></a>
+                <a href="#equipe" class="a"><span>EQUIPE</span></a>
+                <a href="#assistir" class="a"><span>ASSISTIR</span></a>
+                <a class="a"><span>CREDITOS</span></a>
+                <div class="cursor"></div>
+            </nav>
             
-            <div class="first">
+            <div id="home" class="first">
                 <h2>2A</h2>
                 <h1>ENTRE OS MUNDOS</h1>
                 <p>a escrever</p>
             </div>
 
-            <div class="third">
+            <div id="sobre" class="second">
+                <div id="canvas-container-details"></div>
+                <div class="second-container">
+                    <ul>
+                        <li data-tab="filme" class="active">SOBRE O FILME</li>
+                        <li data-tab="personagens">PERSONAGENS</li>
+                        <li data-tab="cenarios">CENÁRIOS</li>
+                    </ul>
+                    <p id="sobre-conteudo">
+                        Aqui você pode escrever um resumo sobre o enredo do filme, os temas
+                        abordados e o que o público pode esperar dessa jornada "entre os mundos".
+                        Destaque os elementos que tornam a história única e cativante.
+                    </p>
+                </div>
+            </div>
+
+            <div id="equipe" class="third">
                 <h1>A ser feito</h1>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere magnam aut suscipit excepturi, delectus optio consectetur fugit saepe ipsum officia architecto at eius quos libero. Nostrum esse id impedit culpa!</p>
             </div>
 
+            <div id="assistir" class="section-assistir">
+    
+    <div class="ficha-tecnica">
+        <h3>Ficha Técnica</h3>
+        <ul>
+            <li>
+                <strong>Direção:</strong>
+                <span>Ramon Pires</span>
+            </li>
+            <li>
+                <strong>Roteiro:</strong>
+                <span>Roteirista Fictício</span>
+            </li>
+            <li>
+                <strong>Elenco:</strong>
+                <span>Ator Principal, Atriz Principal, Coadjuvante</span>
+            </li>
+            <li>
+                <strong>Gênero:</strong>
+                <span>Ficção Científica, Drama</span>
+            </li>
+            <li>
+                <strong>Duração:</strong>
+                <span>1h 57min</span>
+            </li>
+            <li>
+                <strong>Ano:</strong>
+                <span>2025</span>
+            </li>
+        </ul>
+        <p class="sinopse">
+            Uma breve sinopse do filme pode ser colocada aqui, descrevendo a jornada dos personagens "entre os mundos" e o conflito central da trama.
+        </p>
+    </div>
+
+    <div class="player-container">
+        <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="VIDEO_ID_DO_YOUTUBE"></div>
+    </div>
+
+</div>
+
             <div id="canvas-container" class="fixed"></div> 
             <h4 class="footer">Criado por RD1707 </h4>
         </div>
+
+        <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     </body>
 </html>
