@@ -36,18 +36,20 @@
             </div>
 
             <div id="sobre" class="second">
-                <div id="canvas-container"></div>
                 <div class="second-container">
                     <ul>
-                        <li data-tab="filme" class="active">SOBRE O FILME</li>
-                        <li data-tab="personagens">PERSONAGENS</li>
-                        <li data-tab="cenarios">CENÁRIOS</li>
+                        <li id="filme" data-tab="filme" class="active">SOBRE O FILME</li>
+                        <li id="personagens" data-tab="personagens">PERSONAGENS</li>
+                        <li id="cenarios" data-tab="cenarios">CENÁRIOS</li>
                     </ul>
                     <p id="sobre-conteudo">
                         Em um futuro distópico, dois irmãos separados no nascimento vivem em hemisférios opostos: um em meio ao luxo tecnológico do Norte, o outro entre a exploração e o subemprego do Sul. Seus caminhos colidem quando a inteligência artificial criada por um deles ameaça toda a humanidade. A história faz uma crítica social contundente à Divisão Internacional do Trabalho e à ética do uso tecnológico, convidando o público a refletir sobre o papel da humanidade em meio à ascensão da IA.
                     </p>
                 </div>
+                <div id="canvas-container-details"></div>
             </div>
+            
+            <div id="canvas-container" class="fixed"></div> 
 
             <div id="assistir" class="section-assistir">
                 <div class="ficha-tecnica">
@@ -136,5 +138,6 @@
             </div>
 
         <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lil-gui@0.19"></script>
     </body>
 </html>

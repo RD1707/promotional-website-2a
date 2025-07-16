@@ -173,7 +173,7 @@ nav.header .a:hover ~ .cursor {
 
 #canvas-container{
     pointer-events: none;
-    position: absolute;
+    position: fixed; /* Mude de 'absolute' para 'fixed' */
     top: 0;
     left: 0;
     outline: none;
@@ -331,6 +331,7 @@ nav.header .a:hover ~ .cursor {
     opacity: 1;
 }
 
+/* Modifique o seletor .second */
 .second{
     pointer-events: all;
     font-size: 2em;
@@ -342,6 +343,7 @@ nav.header .a:hover ~ .cursor {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    position: relative; /* Adicione position relative */
 }
 
 .second-container{
