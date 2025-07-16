@@ -3,6 +3,7 @@ import { Clock, Scene, LoadingManager, WebGLRenderer, sRGBEncoding, Group, Persp
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { MeshoptDecoder } from 'meshoptimizer';
 
 const looadingCover = document.getElementById("loading-text-intro")
 const container = document.getElementById('canvas-container')
@@ -41,6 +42,7 @@ const dracoLoader = new DRACOLoader(loadingManager)
 dracoLoader.setDecoderPath('node_modules/three/examples/jsm/libs/draco/gltf/')
 const loader = new GLTFLoader(loadingManager)
 loader.setDRACOLoader(dracoLoader)
+loader.setMeshoptDecoder(MeshoptDecoder);
 
 loadingManager.onProgress = function(url, itemsLoaded, itemsTotal) {
   const progressRatio = itemsLoaded / itemsTotal;
@@ -68,10 +70,10 @@ loadingManager.onLoad = function() {
 
         introAnimation()
         window.scroll(0, 0)
-    }, 500); 
+    }, 500);
 }
 
-loader.load('models/gltf/2a.glb', function (gltf) {
+loader.load('./models/gltf/2a.glb', function (gltf) {
     gltf.scene.position.set(-1.48, 0.66, 1.5);
     gltf.scene.rotation.y = 0;
     gltf.scene.scale.set(3.58, 3.58, 3.58);
