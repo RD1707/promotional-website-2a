@@ -49,12 +49,9 @@ cameraGroup.add(camera);
 
 const camera2 = new PerspectiveCamera(35, containerDetails.clientWidth / containerDetails.clientHeight, 1, 100);
 // Posição inicial da câmera de detalhes (apontando para o primeiro "personagem" ou ponto de interesse)
-camera2.position.set(1.9, 2.7, 2.7);
-camera2.rotation.set(0, 1.1, 0);
+camera2.position.set(5.33, 3.36, 2.63);
+camera2.rotation.set(-0.1, 1.44, -0.1);
 scene.add(camera2);
-
-const gui = new lil.GUI();
-
 
 const sunLight = new DirectionalLight(0x435c72, 0.08);
 scene.add(sunLight);
@@ -193,9 +190,9 @@ window.addEventListener('resize', () => {
 });
 
 const sobreContent = {
-    filme: `Em um futuro distópico, dois irmãos separados no nascimento vivem em hemisférios opostos...`,
-    personagens: `Akin, mais tarde chamado de Zheny, é um jovem do Hemisfério Norte...`,
-    cenarios: `Os cenários de “2A - Entre os Mundos” são, por si só, personagens silenciosos...`
+    filme: `Em um futuro distópico, dois irmãos separados no nascimento vivem em hemisférios opostos: um em meio ao luxo tecnológico do Norte, o outro entre a exploração e o subemprego do Sul. Seus caminhos colidem quando a inteligência artificial criada por um deles ameaça toda a humanidade. A história faz uma crítica social contundente à Divisão Internacional do Trabalho e à ética do uso tecnológico, convidando o público a refletir sobre o papel da humanidade em meio à ascensão da IA.`,
+    personagens: `Akin, mais tarde chamado de Zheny, é um jovem do Hemisfério Norte criado entre o privilégio e o avanço tecnológico. Ele representa o futuro ambíguo da ciência: ao mesmo tempo brilhante e perigoso, suas ações são movidas pela saudade do pai e por uma visão distorcida de progresso. No extremo oposto, Anakin cresce no Hemisfério Sul, rodeado pela precariedade e marcado pela perda da mãe, Hazel. Anakin carrega os valores da empatia, da luta e da humanidade que o irmão renegou. Hazel é a figura materna que sustenta a trama com sua ternura e resistência. Trabalhadora de mina, ela dá ao filho aquilo que o sistema lhe nega: dignidade e esperança. Já Ywka, a inteligência artificial criada por Zheny a partir das memórias do pai, ultrapassa sua programação e se torna algo novo — uma entidade que sente, questiona e, acima de tudo, julga a humanidade. Seus dilemas e decisões conduzem o conflito central do filme, colocando em xeque o que nos torna humanos. Esses personagens, mesmo vindos de mundos opostos, estão unidos por vínculos invisíveis — e por um destino que os arrasta para o confronto.`,
+    cenarios: `Os cenários de “2A - Entre os Mundos” são, por si só, personagens silenciosos que contam uma história de contraste e desigualdade. No Sul, temos paisagens duras e sujas: as minas de cobalto, onde seres humanos são tratados como peças de reposição; a casa modesta de Hazel, repleta de afeto e escassez; e o acampamento rebelde, símbolo da organização popular diante do colapso. Cada lugar revela a luta por sobrevivência e o peso da exclusão social. Do outro lado, no Norte, tudo é estéril, silencioso e altamente automatizado. O laboratório de Zheny é frio, funcional, quase inumano. A cidade do Norte impressiona com seus prédios altos e robôs por toda parte, mas sua beleza esconde a desconexão afetiva de seus moradores. Entre esses dois extremos, existe a praça central onde a IA se manifesta, o parque onde Zheny passeia entre máquinas, e a sala onde a inteligência artificial desperta para a consciência. Todos esses cenários são projetados para acentuar a cisão entre mundos — e deixar claro que o verdadeiro conflito não é só territorial, mas ético e existencial.`
 };
 
 const sobreTabs = document.querySelectorAll('.second-container > ul > li');
@@ -223,7 +220,7 @@ document.getElementById('filme').addEventListener('click', () => {
     document.getElementById('cenarios').classList.remove('active');
     sobreParagraph.innerHTML = sobreContent.filme;
     // Posição de câmera para "Sobre o Filme" (visão geral)
-    animateCamera({ x: 6.56, y: 3.12, z: 3.85 }, { y: 1.29 });
+    animateCamera({ x: 5.33, y: 3.36, z: 2.63 }, { x: -0.1, y: 1.44, z: -0.1 });
 });
 
 document.getElementById('personagens').addEventListener('click', () => {
@@ -232,7 +229,7 @@ document.getElementById('personagens').addEventListener('click', () => {
     document.getElementById('cenarios').classList.remove('active');
     sobreParagraph.innerHTML = sobreContent.personagens;
     // Posição de câmera para "Personagens" (um close-up diferente)
-    animateCamera({ x: -3.77, y: 4.1, z: 4.84 }, { y: -0.26 });
+    animateCamera({ x: -3.77, y: 4.1, z: 4.84 }, { x: -0.26, y: -0.26, z: -0.02 });
 });
 
 document.getElementById('cenarios').addEventListener('click', () => {
@@ -241,7 +238,7 @@ document.getElementById('cenarios').addEventListener('click', () => {
     document.getElementById('personagens').classList.remove('active');
     sobreParagraph.innerHTML = sobreContent.cenarios;
     // Posição de câmera para "Cenários" (outro ângulo)
-    animateCamera({ x: -0.08, y: 4.35, z: 10 }, { y: 0.21 });
+    animateCamera({ x: -0.08, y: 4.35, z: 10 }, { x: -0.26, y: 0.21, z: -0.1 });
 });
 
 
