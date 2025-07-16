@@ -4,11 +4,13 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
-const ftsLoader = document.querySelector(".lds-roller")
 const looadingCover = document.getElementById("loading-text-intro")
 const container = document.getElementById('canvas-container')
 const customCursor = document.querySelector('.cursor')
 const navButtons = document.querySelectorAll('nav > .a')
+const progressBar = document.getElementById('progress-bar')
+const progressText = document.getElementById('progress-text')
+const progressContainer = document.getElementById('progress-container')
 
 let width = container.clientWidth
 let height = container.clientHeight
@@ -40,19 +42,36 @@ dracoLoader.setDecoderPath('node_modules/three/examples/jsm/libs/draco/gltf/')
 const loader = new GLTFLoader(loadingManager)
 loader.setDRACOLoader(dracoLoader)
 
-loadingManager.onLoad = function() {
-    document.querySelector(".main-container").style.visibility = 'visible'
-    document.querySelector("body").style.overflow = 'auto'
-    const yPosition = {y: 0}
-    new TWEEN.Tween(yPosition).to({y: 100}, 900).easing(TWEEN.Easing.Quadratic.InOut).start()
-    .onUpdate(function(){ looadingCover.style.setProperty('transform', `translate( 0, ${yPosition.y}%)`)})
-    .onComplete(function () {looadingCover.parentNode.removeChild(document.getElementById("loading-text-intro")); TWEEN.remove(this)})
-    introAnimation()
-    ftsLoader.parentNode.removeChild(ftsLoader)
-    window.scroll(0, 0)
+loadingManager.onProgress = function(url, itemsLoaded, itemsTotal) {
+  const progressRatio = itemsLoaded / itemsTotal;
+  const percent = Math.floor(progressRatio * 100);
+  progressBar.style.width = percent + '%';
+  progressText.innerText = percent + '%';
 }
 
-loader.load('models/gltf/graces-draco2.glb', function (gltf) {
+loadingManager.onLoad = function() {
+
+    setTimeout(() => {
+        document.querySelector(".main-container").style.visibility = 'visible'
+        document.querySelector("body").style.overflow = 'auto'
+
+        looadingCover.style.opacity = '0';
+        looadingCover.style.transition = 'opacity 1s ease';
+        progressContainer.style.opacity = '0';
+        progressContainer.style.transition = 'opacity 1s ease';
+
+        setTimeout(() => {
+            if(looadingCover.parentNode) looadingCover.parentNode.removeChild(looadingCover);
+            if(progressContainer.parentNode) progressContainer.parentNode.removeChild(progressContainer);
+        }, 1000);
+
+
+        introAnimation()
+        window.scroll(0, 0)
+    }, 500); 
+}
+
+loader.load('models/gltf/2a.glb', function (gltf) {
     gltf.scene.position.set(-1.48, 0.66, 1.5);
     gltf.scene.rotation.y = 0;
     gltf.scene.scale.set(3.58, 3.58, 3.58);
@@ -122,9 +141,9 @@ window.addEventListener('resize', () => {
 })
 
 const sobreContent = {
-    filme: `Aqui você pode escrever um resumo sobre o enredo do filme, os temas abordados e o que o público pode esperar dessa jornada "entre os mundos". Destaque os elementos que tornam a história única e cativante.`,
-    personagens: `Descreva os protagonistas e antagonistas. Quem são eles? Quais são suas motivações, medos e arcos de desenvolvimento ao longo da história? Dê um vislumbre da complexidade de cada um.`,
-    cenarios: `Apresente os mundos que o filme explora. Descreva a atmosfera, a estética e a importância de cada cenário para a narrativa. São mundos contrastantes? Mágicos? Tecnológicos?`
+    filme: `Em um futuro distópico, dois irmãos separados no nascimento vivem em hemisférios opostos: um em meio ao luxo tecnológico do Norte, o outro entre a exploração e o subemprego do Sul. Seus caminhos colidem quando a inteligência artificial criada por um deles ameaça toda a humanidade. A história faz uma crítica social contundente à Divisão Internacional do Trabalho e à ética do uso tecnológico, convidando o público a refletir sobre o papel da humanidade em meio à ascensão da IA.`,
+    personagens: `Akin, mais tarde chamado de Zheny, é um jovem do Hemisfério Norte criado entre o privilégio e o avanço tecnológico. Ele representa o futuro ambíguo da ciência: ao mesmo tempo brilhante e perigoso, suas ações são movidas pela saudade do pai e por uma visão distorcida de progresso. No extremo oposto, Anakin cresce no Hemisfério Sul, rodeado pela precariedade e marcado pela perda da mãe, Hazel. Anakin carrega os valores da empatia, da luta e da humanidade que o irmão renegou. Hazel é a figura materna que sustenta a trama com sua ternura e resistência. Trabalhadora de mina, ela dá ao filho aquilo que o sistema lhe nega: dignidade e esperança. Já Ywka, a inteligência artificial criada por Zheny a partir das memórias do pai, ultrapassa sua programação e se torna algo novo — uma entidade que sente, questiona e, acima de tudo, julga a humanidade. Seus dilemas e decisões conduzem o conflito central do filme, colocando em xeque o que nos torna humanos. Esses personagens, mesmo vindos de mundos opostos, estão unidos por vínculos invisíveis — e por um destino que os arrasta para o confronto.`,
+    cenarios: `Os cenários de “2A - Entre os Mundos” são, por si só, personagens silenciosos que contam uma história de contraste e desigualdade. No Sul, temos paisagens duras e sujas: as minas de cobalto, onde seres humanos são tratados como peças de reposição; a casa modesta de Hazel, repleta de afeto e escassez; e o acampamento rebelde, símbolo da organização popular diante do colapso. Cada lugar revela a luta por sobrevivência e o peso da exclusão social. Do outro lado, no Norte, tudo é estéril, silencioso e altamente automatizado. O laboratório de Zheny é frio, funcional, quase inumano. A cidade do Norte impressiona com seus prédios altos e robôs por toda parte, mas sua beleza esconde a desconexão afetiva de seus moradores. Entre esses dois extremos, existe a praça central onde a IA se manifesta, o parque onde Zheny passeia entre máquinas, e a sala onde a inteligência artificial desperta para a consciência. Todos esses cenários são projetados para acentuar a cisão entre mundos — e deixar claro que o verdadeiro conflito não é só territorial, mas ético e existencial.`
 };
 
 const navLinks = document.querySelectorAll('nav.header .a');

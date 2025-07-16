@@ -166,7 +166,7 @@ nav.header .a:hover ~ .cursor {
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	z-index: 2 !important; /* TODO Solve this in HTML */
+	z-index: 2 !important; 
 }
 
 #canvas-container{
@@ -205,7 +205,6 @@ nav.header .a:hover ~ .cursor {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    /* display: flex; */
     flex-direction: column;
     align-content: center;
     justify-content: center;
@@ -464,7 +463,6 @@ nav.header .a:hover ~ .cursor {
     color: antiquewhite;
 }
 
-/* --- ESTILOS DA SEÇÃO ASSISTIR (Layout de 2 Colunas) --- */
 .section-assistir {
     height: 100vh;
     width: 100%;
@@ -524,7 +522,105 @@ nav.header .a:hover ~ .cursor {
   --plyr-video-range-track-background: #33333350;
 }
 
-/* --- Media Queries Consolidadas --- */
+.section-creditos {
+    width: 100%;
+    padding: 100px 5%;
+    background: #050505;
+    z-index: 1;
+    position: relative;
+    box-sizing: border-box;
+    color: #c9c9c9;
+}
+
+.section-creditos h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 4em;
+    font-weight: 100;
+    text-align: center;
+    margin-bottom: 80px;
+    color: #fff;
+    letter-spacing: .2em;
+}
+
+.creditos-container {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.creditos-coluna {
+    flex: 1;
+    min-width: 200px; 
+}
+
+.creditos-coluna h4 {
+    font-family: 'Josefin Sans', sans-serif;
+    color: #fff;
+    font-size: 1.1em;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ffffff20;
+    margin-bottom: 20px;
+}
+
+.creditos-coluna ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9em;
+    line-height: 1.8;
+}
+
+#progress-container {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 10px;
+  border: 1px solid #ffffff30;
+  z-index: 4;
+  background: #00000050;
+}
+
+#progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #f9f0ec;
+  transition: width 0.3s ease-out; 
+  box-shadow: 0 0 10px #f9f0ec, 0 0 20px #f9f0ec50;
+}
+
+#progress-text {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Josefin Sans', sans-serif;
+    color: #f9f0ec;
+    font-size: 14px;
+    letter-spacing: .2em;
+}
+
+@media only screen and (max-width: 768px) {
+    .creditos-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .creditos-coluna {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 40px;
+    }
+    .section-creditos h2 {
+        font-size: 3em;
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .section-assistir {
         flex-direction: column;
