@@ -20,7 +20,7 @@ module.exports = merge(
             open: true,
             https: false,
             allowedHosts: 'all',
-            hot: true, // Garantir que está como true
+            hot: true, 
             watchFiles: ['src/**', 'static/**'],
             static:
             {
@@ -33,7 +33,6 @@ module.exports = merge(
                 overlay: true,
                 progress: false
             },
-            // V--- MUDANÇA 2: Usando a nova API 'setupMiddlewares' ---V
             setupMiddlewares: (middlewares, devServer) => {
                 if (!devServer) {
                   throw new Error('webpack-dev-server is not defined');
@@ -41,7 +40,7 @@ module.exports = merge(
 
                 const port = devServer.options.port
                 const https = devServer.options.https ? 's' : ''
-                const localIp = internalIpV4Sync() // <-- MUDANÇA 3
+                const localIp = internalIpV4Sync() 
                 const domain1 = `http${https}://${localIp}:${port}`
                 const domain2 = `http${https}://localhost:${port}`
 
