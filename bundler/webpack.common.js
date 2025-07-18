@@ -9,7 +9,7 @@ module.exports = {
     output:
     {
         hashFunction: 'xxhash64',
-        filename: 'bundle.[contenthash].js',
+        filename: 'script.js',
         path: path.resolve(__dirname, '../dist')
     },
     devtool: 'source-map',
