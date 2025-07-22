@@ -44,6 +44,7 @@ camera2.position.set(-0.08, 4.35, 10);
 camera2.rotation.set(-0.26, 0.21, -0.1);
 scene.add(camera2);
 
+
 const sunLight = new DirectionalLight(0xE8A265, 0.15); scene.add(sunLight);
 const fillLight = new PointLight(0xFFDAB9, 2.7, 4, 3); fillLight.position.set(30,3,1.8); scene.add(fillLight);
 scene.add(fillLight);
@@ -104,7 +105,6 @@ function introAnimation() {
             document.querySelector('.first>p').classList.add('ended');
         });
 }
-// --- FIM DA ALTERAÇÃO ---
 
 function animateCamera(position, rotation) {
     new TWEEN.Tween(camera2.position).to(position, 1800).easing(TWEEN.Easing.Quadratic.InOut).start();
@@ -140,26 +140,15 @@ function rendeLoop() {
     requestAnimationFrame(rendeLoop);
 }
 
-// ====================================================================
-// EVENT LISTENERS E LÓGICA DE UI
-// ====================================================================
-
-/**
- * LISTENER DE RESIZE SIMPLIFICADO E CORRIGIDO
- * Apenas atualiza o aspect ratio. O enquadramento é resolvido pela animação.
- */
 window.addEventListener('resize', () => {
-    // Atualiza as dimensões e o renderer principal
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
     renderer.setSize(newWidth, newHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
     
-    // Atualiza o aspect ratio da câmera principal
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     
-    // Atualiza o segundo renderer e câmera
     const detailsWidth = containerDetails.clientWidth;
     const detailsHeight = containerDetails.clientHeight;
     renderer2.setSize(detailsWidth, detailsHeight);
@@ -187,7 +176,6 @@ navButtons.forEach(b => {
     });
 });
 
-// A LÓGICA DA SEÇÃO 'SOBRE' PERMANECE A MESMA
 const sobreContent = {
     filme: `Em um futuro distópico, dois irmãos separados no nascimento vivem em hemisférios opostos: um em meio ao luxo tecnológico do Norte, o outro entre a exploração e o subemprego do Sul. Seus caminhos colidem quando a inteligência artificial criada por um deles ameaça toda a humanidade. A história faz uma crítica social contundente à Divisão Internacional do Trabalho e à ética do uso tecnológico, convidando o público a refletir sobre o papel da humanidade em meio à ascensão da IA.`,
     personagens: `Akin, que mais tarde adota o nome Zheny, é fruto do Hemisfério Norte — um mundo envolto em tecnologia, controle e aparente perfeição. Desde pequeno, demonstrou genialidade incomum, sendo tratado como uma promessa da ciência. Cresceu distante da dor e da escassez, mas profundamente marcado pela ausência e pela saudade do pai. Essa carência o levou a buscar na tecnologia um meio de reviver o passado, criando uma inteligência artificial baseada nas memórias paternas. Akin é racional, metódico e ambicioso, mas também carrega uma solidão disfarçada de superioridade. Seu mergulho na ciência o afastou da empatia, fazendo dele uma peça fundamental no colapso entre os mundos. No fundo, é um personagem em constante conflito entre o que sabe e o que sente, entre o criador e a criatura.`,
@@ -240,7 +228,6 @@ observer.observe(watchedSection);
 
 const player = new Plyr('#player');
 
-// Dispara o resize uma vez no início para configurar o aspect ratio inicial
 window.dispatchEvent(new Event('resize'));
 
 rendeLoop();

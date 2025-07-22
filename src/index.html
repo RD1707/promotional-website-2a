@@ -14,29 +14,30 @@
     </head>
     <body>
         <div id="loading-text-intro"><p>INICIANDO PROTOCOLOS...</p></div>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+            <span id="progress-text">0%</span>
+        </div>
 
-            <div id="progress-container">
-                <div id="progress-bar"></div>
-                <span id="progress-text">0%</span>
-            </div>
+        <main class="main-container" style="visibility:hidden;">
 
-        <div class="main-container" style="visibility:hidden;">
-
-            <nav class="header">
-                <a href="#home" class="active a"><span>HOME</span></a>
-                <a href="#sobre" class="a"><span>SOBRE</span></a>
-                <a href="#assistir" class="a"><span>ASSISTIR</span></a>
-                <a href="#creditos" class="a"><span>CREDITOS</span></a>
-                <div class="cursor"></div>
-            </nav>
+            <header>
+                <nav class="header">
+                    <a href="#home" class="active a"><span>HOME</span></a>
+                    <a href="#sobre" class="a"><span>SOBRE</span></a>
+                    <a href="#assistir" class="a"><span>ASSISTIR</span></a>
+                    <a href="#creditos" class="a"><span>CREDITOS</span></a>
+                    <div class="cursor"></div>
+                </nav>
+            </header>
             
-            <div id="home" class="first">
+            <section id="home" class="first">
                 <h2>2A</h2>
                 <h1>ENTRE OS MUNDOS</h1>
                 <p>"Quando a tecnologia ultrapassa a empatia, é a humanidade que está em risco."</p>
-            </div>
+            </section>
 
-            <div id="sobre" class="second">
+            <section id="sobre" class="second">
                 <div class="second-container">
                     <ul>
                         <li id="filme" data-tab="filme" class="active">SOBRE O FILME</li>
@@ -48,11 +49,11 @@
                     </p>
                 </div>
                 <div id="canvas-container-details"></div>
-            </div>
+            </section>
             
             <div id="canvas-container" class="fixed"></div> 
 
-            <div id="assistir" class="section-assistir">
+            <section id="assistir" class="section-assistir">
                 <div class="ficha-tecnica">
                     <h3>Ficha Técnica</h3>
                     <ul>
@@ -70,9 +71,9 @@
                 <div class="player-container">
                     <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="F-_-cZ4JxLs"></div>
                 </div>
-            </div>
+            </section>
 
-            <div id="creditos" class="section-creditos">
+            <section id="creditos" class="section-creditos">
                 <h2>Créditos</h2>
                 <div class="creditos-container">
                     <div class="creditos-coluna">
@@ -92,7 +93,6 @@
                             <li>Marcelle Abreu</li>
                         </ul>
                     </div>
-
                     <div class="creditos-coluna">
                         <h4>Elenco Principal</h4>
                         <ul>
@@ -109,7 +109,6 @@
                             <li>Kenai Almeida</li>
                         </ul>
                     </div>
-
                     <div class="creditos-coluna">
                         <h4>Cinematografia</h4>
                         <ul>
@@ -122,7 +121,6 @@
                             <li>Ruan Reiler</li>
                         </ul>
                     </div>
-
                     <div class="creditos-coluna">
                         <h4>Música</h4>
                         <ul>
@@ -136,7 +134,12 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </section>
+        </main>
+        
+        <footer class="footer">
+            <p>Criado por RD1707</p>
+        </footer>
 
         <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     </body>
