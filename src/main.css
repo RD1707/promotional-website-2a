@@ -12,7 +12,7 @@
     --color-accent: #FFA500; /* Laranja */
     --color-loader: #f9f0ec;
     --color-white-transparent: #ffffff1c;
-    --plyr-color-main: #c9c9c9; /* Cor principal do Plyr Player */
+    --plyr-color-main: var(--color-accent); /* Cor principal do Plyr Player */
 
     /* Tipografia */
     --font-serif-main: 'Nanum Myeongjo', serif;
@@ -25,6 +25,12 @@
 /* =============================================
    ESTILOS GERAIS E RESET
    ============================================= */
+/* Destaque de seleção de texto personalizado */
+::selection {
+    background: var(--color-accent);
+    color: var(--color-background);
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -35,6 +41,19 @@ body {
     scroll-behavior: smooth;
     overflow: hidden;
     cursor: none;
+}
+
+/* Scrollbar customizada */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+body::-webkit-scrollbar-track {
+    background: var(--color-background-secondary);
+}
+body::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent);
+    border-radius: 20px;
+    border: 2px solid var(--color-background-secondary);
 }
 
 span {
@@ -81,9 +100,9 @@ span {
 #progress-bar {
     width: 0%;
     height: 100%;
-    background: var(--color-loader);
+    background: var(--color-accent); /* Barra de progresso em laranja */
     transition: width 0.3s ease-out; 
-    box-shadow: 0 0 10px var(--color-loader), 0 0 20px #f9f0ec50;
+    box-shadow: 0 0 10px var(--color-accent), 0 0 20px #ffA50050; /* Sombra laranja */
 }
 
 #progress-text {
@@ -130,12 +149,25 @@ nav {
     letter-spacing: .4em;
     font-size: .9em;
     transition: all 0.3s ease, color 0.3s ease;
+    position: relative;
 }
 
+/* Efeito hover nos links da navegação */
 nav.header .a:hover {
-    cursor: pointer;
-    color: rgb(175, 175, 175); 
+    color: var(--color-accent); /* Cor laranja no hover */
     transform: scale(1.1); 
+}
+
+/* Indicador do link ativo na navegação */
+nav.header .a.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 2px;
+    background: var(--color-accent);
 }
 
 nav.header .a:hover ~ .cursor {
@@ -193,23 +225,6 @@ nav.header .a:hover ~ .cursor {
 .header.ended {
     top: 3em;
     opacity: 1;
-}
-
-.header > span {
-    padding: 0 3.25em;
-    letter-spacing: .4em;
-    position: relative;
-}
-
-.header > span.active:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    transform: translate3d(-50%,0,0);
-    bottom: -10px;
-    width: 20px;
-    height: 2px;
-    background: var(--color-accent); 
 }
 
 
@@ -316,15 +331,15 @@ nav.header .a:hover ~ .cursor {
 .second-container > ul > li {
     padding-right: 20px;
     transition: all 0.8s ease-out;
-}
-
-.second-container > ul > li:hover {
-    color: whitesmoke;
     cursor: pointer;
 }
 
+.second-container > ul > li:hover {
+    color: var(--color-text-primary); /* Cor pêssego no hover */
+}
+
 .second-container > ul > li.active {
-    color: whitesmoke;
+    color: var(--color-accent); /* Cor laranja na aba ativa */
 }
 
 .second-container > ul > li.active:after {
@@ -332,7 +347,7 @@ nav.header .a:hover ~ .cursor {
     top: 20px;
     width: 50px;
     height: 2px;
-    background: whitesmoke;
+    background: var(--color-accent); /* Linha laranja na aba ativa */
     position: relative;
     left: 0px;
     display: block;
@@ -535,9 +550,6 @@ nav.header .a:hover ~ .cursor {
 @media only screen and (max-width: 660px) {
     .header {
         font-size: .6em;
-    }
-    .header > span {
-        padding: 0 1em;
     }
     .a {
         padding: 10px;
