@@ -44,10 +44,8 @@ camera2.position.set(-0.08, 4.35, 10);
 camera2.rotation.set(-0.26, 0.21, -0.1);
 scene.add(camera2);
 
-const sunLight = new DirectionalLight(0x435c72, 0.08);
-scene.add(sunLight);
-const fillLight = new PointLight(0x88b2d9, 2.7, 4, 3);
-fillLight.position.set(30, 3, 1.8);
+const sunLight = new DirectionalLight(0xE8A265, 0.15); scene.add(sunLight);
+const fillLight = new PointLight(0xFFDAB9, 2.7, 4, 3); fillLight.position.set(30,3,1.8); scene.add(fillLight);
 scene.add(fillLight);
 
 const loadingManager = new LoadingManager();
