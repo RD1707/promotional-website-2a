@@ -5,6 +5,11 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'meshoptimizer';
 
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
+
+
 const looadingCover = document.getElementById("loading-text-intro");
 const mainContainer = document.querySelector('.main-container');
 const container = document.getElementById('canvas-container');
@@ -39,10 +44,24 @@ const camera = new PerspectiveCamera(35, container.clientWidth / container.clien
 camera.position.set(19, 1.54, -0.1);
 cameraGroup.add(camera);
 
+const composer = new EffectComposer(renderer);
+const renderPass = new RenderPass(scene, camera);
+composer.addPass(renderPass);
+
+const glitchPass = new GlitchPass();
+composer.addPass(glitchPass);
+
 const camera2 = new PerspectiveCamera(35, containerDetails.clientWidth / containerDetails.clientHeight, 1, 100);
 camera2.position.set(-0.08, 4.35, 10);
 camera2.rotation.set(-0.26, 0.21, -0.1);
 scene.add(camera2);
+
+const composer2 = new EffectComposer(renderer2);
+const renderPass2 = new RenderPass(scene, camera2);
+composer2.addPass(renderPass2);
+
+const glitchPass2 = new GlitchPass();
+composer2.addPass(glitchPass2);
 
 
 const sunLight = new DirectionalLight(0xE8A265, 0.15); scene.add(sunLight);
@@ -51,7 +70,7 @@ scene.add(fillLight);
 
 const loadingManager = new LoadingManager();
 const dracoLoader = new DRACOLoader(loadingManager);
-dracoLoader.setDecoderPath('./draco/gltf/'); 
+dracoLoader.setDecoderPath('./draco/gltf/');
 const loader = new GLTFLoader(loadingManager);
 loader.setDRACOLoader(dracoLoader);
 loader.setMeshoptDecoder(MeshoptDecoder);
@@ -89,7 +108,7 @@ loader.load('./models/gltf/2a.glb', function (gltf) {
 
 const cameraEndPositions = {
     desktop: { x: 0, y: 2.4, z: 8.8 },
-    mobile:  { x: 0, y: 2.4, z: 17.0 } 
+    mobile:  { x: 0, y: 2.4, z: 17.0 }
 };
 
 function introAnimation() {
@@ -112,17 +131,16 @@ function animateCamera(position, rotation) {
 }
 
 
-let secondContainerActive = false; 
+let secondContainerActive = false;
 
 function rendeLoop() {
     TWEEN.update();
-    
-    const isMobile = window.innerWidth <= 768;
 
+    composer.render();
+
+    const isMobile = window.innerWidth <= 768;
     if (secondContainerActive && !isMobile) {
-        renderer2.render(scene, camera2);
-    } else {
-        renderer.render(scene, camera);
+        composer2.render();
     }
 
     const elapsedTime = clock.getElapsedTime();
@@ -143,16 +161,21 @@ function rendeLoop() {
 window.addEventListener('resize', () => {
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
+
     renderer.setSize(newWidth, newHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
-    
+    composer.setSize(newWidth, newHeight);
+    composer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
-    
+
     const detailsWidth = containerDetails.clientWidth;
     const detailsHeight = containerDetails.clientHeight;
     renderer2.setSize(detailsWidth, detailsHeight);
     renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+    composer2.setSize(detailsWidth, detailsHeight);
+    composer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
     camera2.aspect = detailsWidth / detailsHeight;
     camera2.updateProjectionMatrix();
 });
@@ -218,13 +241,25 @@ document.getElementById('cenarios').addEventListener('click', () => {
     sobreParagraph.innerHTML = sobreContent.cenarios;
     animateCamera({ x: 5.33, y: 3.36, z: 2.63 }, { x: -0.1, y: 1.44, z: -0.1 });
 });
+
 const watchedSection = document.querySelector('.second');
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         secondContainerActive = entry.isIntersecting;
     });
-}, { threshold: 0.05 }); 
+}, { threshold: 0.05 });
 observer.observe(watchedSection);
+
+const assistSection = document.querySelector('.section-assistir');
+const assistObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const isIntersecting = entry.isIntersecting;
+        glitchPass.enabled = !isIntersecting;
+        glitchPass2.enabled = !isIntersecting;
+    });
+}, { threshold: 0.1 }); 
+assistObserver.observe(assistSection);
+
 
 const player = new Plyr('#player');
 
