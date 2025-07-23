@@ -1,31 +1,21 @@
-/* =============================================
-   VARIÁVEIS GLOBAIS (CUSTOM PROPERTIES)
-   ============================================= */
 :root {
-    /* Paleta de Cores */
     --color-background: #050505;
     --color-background-secondary: #141414;
     --color-background-gradient-start: #4d2a00;
-    --color-text-primary: #FFDAB9; /* Pêssego */
+    --color-text-primary: #FFDAB9; 
     --color-text-secondary: #c9c9c9;
     --color-text-muted: #898989;
-    --color-accent: #FFA500; /* Laranja */
+    --color-accent: #FFA500;
     --color-loader: #f9f0ec;
     --color-white-transparent: #ffffff1c;
-    --plyr-color-main: var(--color-accent); /* Cor principal do Plyr Player */
+    --plyr-color-main: var(--color-accent); 
 
-    /* Tipografia */
     --font-serif-main: 'Nanum Myeongjo', serif;
     --font-sans-display: 'Josefin Sans', sans-serif;
     --font-serif-display: 'DM Serif Display', serif;
     --font-sans-generic: sans-serif;
 }
 
-
-/* =============================================
-   ESTILOS GERAIS E RESET
-   ============================================= */
-/* Destaque de seleção de texto personalizado */
 ::selection {
     background: var(--color-accent);
     color: var(--color-background);
@@ -43,7 +33,19 @@ body {
     cursor: none;
 }
 
-/* Scrollbar customizada */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('https://www.transparenttextures.com/patterns/noise.png');
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 10;
+}
+
 body::-webkit-scrollbar {
     width: 8px;
 }
@@ -54,6 +56,7 @@ body::-webkit-scrollbar-thumb {
     background-color: var(--color-accent);
     border-radius: 20px;
     border: 2px solid var(--color-background-secondary);
+    box-shadow: 0 0 5px var(--color-accent);
 }
 
 span {
@@ -62,10 +65,6 @@ span {
     transition: transform 0.1s linear;
 }
 
-
-/* =============================================
-   TELA DE CARREGAMENTO & BARRA DE PROGRESSO
-   ============================================= */
 #loading-text-intro {
     z-index: 4;
     position: absolute;
@@ -78,7 +77,7 @@ span {
     font-size: 10px;
     font-weight: 100;
     color: var(--color-loader);
-    background: radial-gradient(circle at center center, #5d5d5d 0, #090909 58%);
+    background-color: black;
 }
 
 #loading-text-intro.ended {
@@ -100,9 +99,9 @@ span {
 #progress-bar {
     width: 0%;
     height: 100%;
-    background: var(--color-accent); /* Barra de progresso em laranja */
+    background: var(--color-accent); 
     transition: width 0.3s ease-out; 
-    box-shadow: 0 0 10px var(--color-accent), 0 0 20px #ffA50050; /* Sombra laranja */
+    box-shadow: 0 0 10px var(--color-accent), 0 0 20px #ffA50050; 
 }
 
 #progress-text {
@@ -116,10 +115,6 @@ span {
     letter-spacing: .2em;
 }
 
-
-/* =============================================
-   NAVEGAÇÃO E CURSOR CUSTOMIZADO
-   ============================================= */
 nav { 
     width: 100%; 
     padding: 1rem; 
@@ -152,13 +147,12 @@ nav {
     position: relative;
 }
 
-/* Efeito hover nos links da navegação */
 nav.header .a:hover {
-    color: var(--color-accent); /* Cor laranja no hover */
-    transform: scale(1.1); 
+    color: var(--color-accent);
+    transform: scale(1.1);
+    text-shadow: 0 0 8px var(--color-accent); 
 }
 
-/* Indicador do link ativo na navegação */
 nav.header .a.active:after {
     content: '';
     position: absolute;
@@ -175,10 +169,6 @@ nav.header .a:hover ~ .cursor {
     opacity: 0.1; 
 }
 
-
-/* =============================================
-   CANVAS E LAYOUT DAS SEÇÕES
-   ============================================= */
 #canvas-container {
     pointer-events: none;
     position: fixed; 
@@ -191,6 +181,8 @@ nav.header .a:hover ~ .cursor {
     margin: 0;
     padding: 0;
     background: radial-gradient(circle at center center, var(--color-background-gradient-start) 0%, var(--color-background) 58%);
+    background-size: 150% 150%;
+    animation: subtleGradient 25s ease infinite;
 }
 
 #canvas-container-details {
@@ -227,8 +219,6 @@ nav.header .a:hover ~ .cursor {
     opacity: 1;
 }
 
-
-/* --- Seção: First (Home) --- */
 .first {
     pointer-events: none;
     font-size: 2em;
@@ -259,6 +249,7 @@ nav.header .a:hover ~ .cursor {
     margin: 10px 0;
     font-weight: 100;
     letter-spacing: 0.4em;
+    text-shadow: 0 0 12px var(--color-accent), 0 0 25px #ffA50040;
 }
 
 .first > h1:after {
@@ -289,8 +280,6 @@ nav.header .a:hover ~ .cursor {
     opacity: 1;
 }
 
-
-/* --- Seção: Second (Sobre) --- */
 .second {
     pointer-events: all;
     font-size: 2em;
@@ -335,11 +324,11 @@ nav.header .a:hover ~ .cursor {
 }
 
 .second-container > ul > li:hover {
-    color: var(--color-text-primary); /* Cor pêssego no hover */
+    color: var(--color-text-primary);
 }
 
 .second-container > ul > li.active {
-    color: var(--color-accent); /* Cor laranja na aba ativa */
+    color: var(--color-accent); 
 }
 
 .second-container > ul > li.active:after {
@@ -347,10 +336,11 @@ nav.header .a:hover ~ .cursor {
     top: 20px;
     width: 50px;
     height: 2px;
-    background: var(--color-accent); /* Linha laranja na aba ativa */
+    background: var(--color-accent); 
     position: relative;
     left: 0px;
     display: block;
+    transition: width 0.4s ease-in-out;
 }
 
 .second-container > p {
@@ -364,7 +354,6 @@ nav.header .a:hover ~ .cursor {
 }
 
 
-/* --- Seção: Assistir --- */
 .section-assistir {
     height: 100vh;
     width: 100%;
@@ -390,9 +379,10 @@ nav.header .a:hover ~ .cursor {
     font-size: 2.5em;
     font-weight: 100;
     margin-bottom: 30px;
-    color: white;
+    color: var(--color-text-primary);
     padding-bottom: 15px;
     border-bottom: 1px solid #ffffff20;
+    text-shadow: 0 0 8px var(--color-accent);
 }
 
 .ficha-tecnica ul {
@@ -427,7 +417,6 @@ nav.header .a:hover ~ .cursor {
 }
 
 
-/* --- Seção: Créditos --- */
 .section-creditos {
     width: 100%;
     padding: 100px 5%;
@@ -446,6 +435,7 @@ nav.header .a:hover ~ .cursor {
     margin-bottom: 80px;
     color: white;
     letter-spacing: .2em;
+    text-shadow: 0 0 10px var(--color-accent);
 }
 
 .creditos-container {
@@ -471,6 +461,7 @@ nav.header .a:hover ~ .cursor {
     padding-bottom: 10px;
     border-bottom: 1px solid #ffffff20;
     margin-bottom: 20px;
+    text-shadow: 0 0 5px var(--color-accent);
 }
 
 .creditos-coluna ul {
@@ -481,8 +472,6 @@ nav.header .a:hover ~ .cursor {
     line-height: 1.8;
 }
 
-
-/* --- Rodapé --- */
 .footer {
     width: 100%;
     margin-bottom: 40px;
@@ -502,10 +491,12 @@ nav.header .a:hover ~ .cursor {
     color: antiquewhite;
 }
 
+@keyframes subtleGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
-/* =============================================
-   MÍDIA QUERIES (RESPONSIVIDADE)
-   ============================================= */
 @media only screen and (max-width: 800px) {
     .section-assistir {
         flex-direction: column;

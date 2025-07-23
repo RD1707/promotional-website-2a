@@ -82,6 +82,16 @@ loadingManager.onProgress = function(url, itemsLoaded, itemsTotal) {
   progressText.innerText = percent + '%';
 };
 
+const mainTitle = document.querySelector('.first > h1');
+
+mainTitle.addEventListener('mouseenter', () => {
+    glitchPass.goWild = true; 
+    setTimeout(() => {
+        glitchPass.goWild = false;
+    }, 150); 
+});
+
+
 loadingManager.onLoad = function() {
     setTimeout(() => {
         mainContainer.style.visibility = 'visible';
