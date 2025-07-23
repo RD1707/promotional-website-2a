@@ -1,14 +1,24 @@
 import './main.css';
-import { Clock, Scene, LoadingManager, WebGLRenderer, sRGBEncoding, Group, PerspectiveCamera, DirectionalLight, PointLight, MathUtils } from 'three';
+import { Clock, Scene, LoadingManager, WebGLRenderer, sRGBEncoding, Group, PerspectiveCamera, DirectionalLight, PointLight } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'meshoptimizer';
-
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js';
 
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
 
 const looadingCover = document.getElementById("loading-text-intro");
 const mainContainer = document.querySelector('.main-container');
@@ -63,9 +73,10 @@ composer2.addPass(renderPass2);
 const glitchPass2 = new GlitchPass();
 composer2.addPass(glitchPass2);
 
-
-const sunLight = new DirectionalLight(0xE8A265, 0.15); scene.add(sunLight);
-const fillLight = new PointLight(0xFFDAB9, 2.7, 4, 3); fillLight.position.set(30,3,1.8); scene.add(fillLight);
+const sunLight = new DirectionalLight(0xE8A265, 0.15);
+scene.add(sunLight);
+const fillLight = new PointLight(0xFFDAB9, 2.7, 4, 3);
+fillLight.position.set(30, 3, 1.8);
 scene.add(fillLight);
 
 const loadingManager = new LoadingManager();
@@ -75,24 +86,22 @@ const loader = new GLTFLoader(loadingManager);
 loader.setDRACOLoader(dracoLoader);
 loader.setMeshoptDecoder(MeshoptDecoder);
 
-loadingManager.onProgress = function(url, itemsLoaded, itemsTotal) {
-  const progressRatio = itemsLoaded / itemsTotal;
-  const percent = Math.floor(progressRatio * 100);
-  progressBar.style.width = percent + '%';
-  progressText.innerText = percent + '%';
+loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+    const progressRatio = itemsLoaded / itemsTotal;
+    const percent = Math.floor(progressRatio * 100);
+    progressBar.style.width = percent + '%';
+    progressText.innerText = percent + '%';
 };
 
 const mainTitle = document.querySelector('.first > h1');
-
 mainTitle.addEventListener('mouseenter', () => {
-    glitchPass.goWild = true; 
+    glitchPass.goWild = true;
     setTimeout(() => {
         glitchPass.goWild = false;
-    }, 150); 
+    }, 150);
 });
 
-
-loadingManager.onLoad = function() {
+loadingManager.onLoad = function () {
     setTimeout(() => {
         mainContainer.style.visibility = 'visible';
         document.body.style.overflow = 'auto';
@@ -100,8 +109,8 @@ loadingManager.onLoad = function() {
         progressContainer.style.opacity = '0';
 
         setTimeout(() => {
-            if(looadingCover.parentNode) looadingCover.parentNode.removeChild(looadingCover);
-            if(progressContainer.parentNode) progressContainer.parentNode.removeChild(progressContainer);
+            if (looadingCover.parentNode) looadingCover.parentNode.removeChild(looadingCover);
+            if (progressContainer.parentNode) progressContainer.parentNode.removeChild(progressContainer);
         }, 1000);
 
         introAnimation();
@@ -118,7 +127,7 @@ loader.load('./models/gltf/2a.glb', function (gltf) {
 
 const cameraEndPositions = {
     desktop: { x: 0, y: 2.4, z: 8.8 },
-    mobile:  { x: 0, y: 2.4, z: 17.0 }
+    mobile: { x: 0, y: 2.4, z: 17.0 }
 };
 
 function introAnimation() {
@@ -140,12 +149,10 @@ function animateCamera(position, rotation) {
     new TWEEN.Tween(camera2.rotation).to(rotation, 1800).easing(TWEEN.Easing.Quadratic.InOut).start();
 }
 
-
 let secondContainerActive = false;
 
 function rendeLoop() {
     TWEEN.update();
-
     composer.render();
 
     const isMobile = window.innerWidth <= 768;
@@ -168,7 +175,7 @@ function rendeLoop() {
     requestAnimationFrame(rendeLoop);
 }
 
-window.addEventListener('resize', () => {
+window.addEventListener('resize', debounce(() => {
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
 
@@ -188,14 +195,13 @@ window.addEventListener('resize', () => {
     composer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
     camera2.aspect = detailsWidth / detailsHeight;
     camera2.updateProjectionMatrix();
-});
-
+}, 250));
 
 document.addEventListener('mousemove', (event) => {
     cursor.x = event.clientX / window.innerWidth - 0.5;
     cursor.y = event.clientY / window.innerHeight - 0.5;
     customCursor.style.cssText = `left: ${event.clientX}px; top: ${event.clientY}px;`;
-}, false);
+}, { passive: true });
 
 navButtons.forEach(b => {
     b.addEventListener('mousemove', (e) => {
@@ -214,7 +220,6 @@ const sobreContent = {
     personagens: `Akin, que mais tarde adota o nome Zheny, é fruto do Hemisfério Norte — um mundo envolto em tecnologia, controle e aparente perfeição. Desde pequeno, demonstrou genialidade incomum, sendo tratado como uma promessa da ciência. Cresceu distante da dor e da escassez, mas profundamente marcado pela ausência e pela saudade do pai. Essa carência o levou a buscar na tecnologia um meio de reviver o passado, criando uma inteligência artificial baseada nas memórias paternas. Akin é racional, metódico e ambicioso, mas também carrega uma solidão disfarçada de superioridade. Seu mergulho na ciência o afastou da empatia, fazendo dele uma peça fundamental no colapso entre os mundos. No fundo, é um personagem em constante conflito entre o que sabe e o que sente, entre o criador e a criatura.`,
     cenarios: `Anakin nasceu e cresceu no Hemisfério Sul, em meio ao pó da mineração e às dores da sobrevivência. Criado por sua mãe, Hazel, aprendeu desde cedo o valor da luta, da família e da esperança. É um jovem sensível, de fala direta e olhar sincero, que carrega no peito as marcas da desigualdade social. Após perder a mãe em um acidente de trabalho, sua vida muda completamente — a dor da perda se transforma em força, e a revolta em liderança. Diferente do irmão, Anakin não busca controlar o mundo, mas compreendê-lo. Sua jornada é movida por amor e justiça, mesmo em um mundo que insiste em negar ambos. Ele representa o humano em sua forma mais crua e verdadeira: falho, mas cheio de fé no que ainda pode ser.`
 };
-const sobreTabs = document.querySelectorAll('.second-container > ul > li');
 const sobreParagraph = document.getElementById('sobre-conteudo');
 const navLinks = document.querySelectorAll('nav.header .a');
 navLinks.forEach(anchor => {
@@ -256,8 +261,15 @@ const watchedSection = document.querySelector('.second');
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         secondContainerActive = entry.isIntersecting;
+        if (entry.isIntersecting) {
+            containerDetails.classList.add('visible');
+        } else {
+            containerDetails.classList.remove('visible');
+        }
     });
-}, { threshold: 0.05 });
+}, {
+    threshold: 0.1
+});
 observer.observe(watchedSection);
 
 const assistSection = document.querySelector('.section-assistir');
@@ -267,11 +279,36 @@ const assistObserver = new IntersectionObserver((entries) => {
         glitchPass.enabled = !isIntersecting;
         glitchPass2.enabled = !isIntersecting;
     });
-}, { threshold: 0.1 }); 
+}, { threshold: 0.1 });
 assistObserver.observe(assistSection);
 
+const playerSection = document.querySelector('.section-assistir');
+let playerInitialized = false;
 
-const player = new Plyr('#player');
+const playerObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !playerInitialized) {
+            playerInitialized = true;
+
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
+            document.head.appendChild(link);
+
+            const script = document.createElement('script');
+            script.src = 'https://cdn.plyr.io/3.7.8/plyr.polyfilled.js';
+            document.body.appendChild(script);
+
+            script.onload = () => {
+                const player = new Plyr('#player');
+            };
+
+            observer.unobserve(playerSection);
+        }
+    });
+}, { rootMargin: '200px' });
+
+playerObserver.observe(playerSection);
 
 window.dispatchEvent(new Event('resize'));
 
