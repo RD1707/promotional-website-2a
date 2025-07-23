@@ -200,13 +200,17 @@ window.addEventListener('resize', debounce(() => {
     camera2.updateProjectionMatrix();
 }, 250));
 
+// SUBSTITUA O ANTIGO 'mousemove' POR ESTE BLOCO COMPLETO
 document.addEventListener('mousemove', (event) => {
+    // Lógica que já existia para mover o cursor e a luz
     cursor.x = event.clientX / window.innerWidth - 0.5;
     cursor.y = event.clientY / window.innerHeight - 0.5;
     customCursor.style.left = `${event.clientX}px`;
     customCursor.style.top = `${event.clientY}px`;
 
+    // NOVA LÓGICA AUTOMÁTICA
     const targetElement = event.target;
+    // Verifica se o estilo do elemento sob o mouse é 'pointer'
     if (window.getComputedStyle(targetElement).cursor === 'pointer') {
         customCursor.classList.add('cursor-dissolve-subtle');
     } else {
