@@ -59,6 +59,7 @@ const renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
 const glitchPass = new GlitchPass();
+glitchPass.enabled = false; 
 composer.addPass(glitchPass);
 
 const camera2 = new PerspectiveCamera(35, containerDetails.clientWidth / containerDetails.clientHeight, 1, 100);
@@ -71,6 +72,7 @@ const renderPass2 = new RenderPass(scene, camera2);
 composer2.addPass(renderPass2);
 
 const glitchPass2 = new GlitchPass();
+glitchPass2.enabled = false; 
 composer2.addPass(glitchPass2);
 
 const sunLight = new DirectionalLight(0xE8A265, 0.15);
@@ -94,11 +96,12 @@ loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
 };
 
 const mainTitle = document.querySelector('.first > h1');
+// <<< ALTERAÇÃO: Lógica do glitch no hover
 mainTitle.addEventListener('mouseenter', () => {
-    glitchPass.goWild = true;
+    glitchPass.enabled = true; // Ativa o glitch de forma sutil
     setTimeout(() => {
-        glitchPass.goWild = false;
-    }, 150);
+        glitchPass.enabled = false; // Desativa após um tempo
+    }, 400); // Duração do efeito em milissegundos
 });
 
 loadingManager.onLoad = function () {
@@ -200,7 +203,15 @@ window.addEventListener('resize', debounce(() => {
 document.addEventListener('mousemove', (event) => {
     cursor.x = event.clientX / window.innerWidth - 0.5;
     cursor.y = event.clientY / window.innerHeight - 0.5;
-    customCursor.style.cssText = `left: ${event.clientX}px; top: ${event.clientY}px;`;
+    customCursor.style.left = `${event.clientX}px`;
+    customCursor.style.top = `${event.clientY}px`;
+
+    const targetElement = event.target;
+    if (window.getComputedStyle(targetElement).cursor === 'pointer') {
+        customCursor.classList.add('cursor-dissolve-subtle');
+    } else {
+        customCursor.classList.remove('cursor-dissolve-subtle');
+    }
 }, { passive: true });
 
 navButtons.forEach(b => {
@@ -274,11 +285,6 @@ observer.observe(watchedSection);
 
 const assistSection = document.querySelector('.section-assistir');
 const assistObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        const isIntersecting = entry.isIntersecting;
-        glitchPass.enabled = !isIntersecting;
-        glitchPass2.enabled = !isIntersecting;
-    });
 }, { threshold: 0.1 });
 assistObserver.observe(assistSection);
 
